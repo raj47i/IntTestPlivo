@@ -1,0 +1,23 @@
+# Binaries for programs and plugins
+IntTestPlivo
+app
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+coverage.html
+
+# temp config for testing
+models/config.json
+
+#OS Cache & Temporary files
+thumbs.db
+Thumbs.db
+.DS_Store

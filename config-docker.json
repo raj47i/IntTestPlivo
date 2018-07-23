@@ -1,0 +1,13 @@
+{
+    "debug": false,
+    "port": 8080,
+    "dbHost": "db1",
+    "dbPort": 5432,
+    "dbUser": "plivo",
+    "dbPassword": "plivo123x",
+    "dbSchema": "pli",
+    "cacheHost": "cache",
+    "cachePort": 6379,
+    "cachePassword": "",
+    "cacheDb": 5
+}

@@ -1,0 +1,53 @@
+version: '2.3'
+services:
+  db1:
+    container_name: db1
+    hostname: db1
+    build:
+      context: .
+      dockerfile: postgresql.Dockerfile
+    ports:
+      - "15432:5432"
+    environment:
+      POSTGRES_USER: plivo
+      POSTGRES_PASSWORD: plivo123x
+      POSTGRES_DB: pli
+    healthcheck:
+      test: "pg_isready -h 127.0.0.1 -p 5432 -q -U plivo -d pli"
+      interval: 3s
+      timeout: 5s
+      retries: 5
+
+  cache:
+    container_name: cache
+    hostname: cache
+    image: redis:4-alpine
+    ports:
+      - "16379:6379"
+    healthcheck:
+      test: "redis-cli PING"
+      interval: 3s
+      timeout: 5s
+      retries: 5
+
+  app:
+    container_name: app
+    hostname: app
+    image: raj47i/inttestplivo
+    ports:
+      - "8080:8080"
+    depends_on:
+      cache:
+        condition: service_healthy
+      db1:
+        condition: service_healthy
+
+  go:
+    container_name: go
+    hostname: go
+    image: golang:1.10-alpine
+    command: '/bin/sh -c "trap : TERM INT; (while true; do sleep 1000; done) & wait"'
+    volumes:
+      - type: bind
+        source: ${GOPATH}
+        target: /go
